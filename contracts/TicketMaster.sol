@@ -14,6 +14,8 @@ contract TicketMaster is ERC721, ERC721URIStorage, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _id;
 
+    uint256 public totalSupply;
+
     mapping(uint256 => bool) booped;
 
     event TicketCreated(address indexed _recipient, uint256 _ticketId);
@@ -23,7 +25,16 @@ contract TicketMaster is ERC721, ERC721URIStorage, Ownable {
     //       audited, so you care less about low level behaviors fucking your shit up
     //    -  I just pass in the ERC721 interface with the name I want and the symbol for the token
     //       which is how it will appear publically on chain -- you can literally name it anything
-    constructor() ERC721("Ticketmaster", "TM") {}
+    constructor(uint256 _totalSupply) ERC721("Ticketmaster", "TM") {
+        for (uint256 i; i < _totalSupply; i++) {
+            _id.increment();
+            uint256 _newTicketId = _id.current();
+            _mint(msg.sender, _newTicketId);
+            emit TicketCreated(msg.sender, _newTicketId);
+        }
+
+        totalSupply = _totalSupply;
+    }
 
     function _burn(uint256 tokenId)
         internal
@@ -39,6 +50,10 @@ contract TicketMaster is ERC721, ERC721URIStorage, Ownable {
         returns (string memory)
     {
         return super.tokenURI(tokenId);
+    }
+
+    function setTicketURI(uint256 _ticketId, string memory _ticketURI) public {
+        _setTokenURI(_ticketId, _ticketURI);
     }
 
     function createTicket(address _recipient, string memory _ticketURI)

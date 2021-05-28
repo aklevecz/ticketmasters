@@ -1,40 +1,24 @@
-import { useEffect } from "react";
-import "./App.css";
-const discordLink =
-  "https://discord.com/api/oauth2/authorize?client_id=847701412002660362&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fcallback&response_type=code&scope=identify%20email";
-const tokenUrl = "https://discord.com/api/oauth2/token";
-function App() {
-  const connectDiscord = () => {
-    window.location.href = discordLink;
-  };
-  useEffect(() => {
-    const code = window.location.search.replace("?code=", "");
-    console.log(code);
-    const client_id = "847701412002660362";
-    const client_secret = "tIdB27NpG88weILAwAtEMr0OpIh5CnNO";
-    const grant_type = "authorization_code";
-    const redirect_uri = "http://localhost:3000/callback";
+import { useContext } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-    fetch(tokenUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: new URLSearchParams({
-        code,
-        client_id,
-        client_secret,
-        grant_type,
-        redirect_uri,
-      }),
-    })
-      .then((r) => r.json())
-      .then(console.log)
-      .catch(console.log);
-  }, []);
+import "./App.css";
+import Events from "./containers/Events";
+import Login from "./containers/Login";
+import Nav from "./containers/Nav";
+import Register from "./containers/Register";
+import { UserContext } from "./contexts/UserContext";
+
+function App() {
   return (
     <div className="App">
-      <button onClick={connectDiscord}>connect discord</button>
+      <Router>
+        <Nav />
+        <Switch>
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
+          <Route path="/" component={Events} />
+        </Switch>
+      </Router>
     </div>
   );
 }
