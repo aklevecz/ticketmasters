@@ -16,20 +16,24 @@ contract TicketMaster is ERC721, ERC721URIStorage, Ownable {
 
     uint256 public totalSupply;
 
-    mapping(uint256 => bool) booped;
+    mapping(uint256 => bool) public booped;
 
-    event TicketCreated(address indexed _recipient, uint256 _ticketId);
+    event TicketCreated(address indexed recipient, uint256 ticketId);
+    event TicketBooped(uint256 ticketId);
 
     // The constructor uses the ERC721(NFT) interface from the library I imported above
     //    -  Openzeppelin is a convenient way to use smart contract interfaces that have been heavily
     //       audited, so you care less about low level behaviors fucking your shit up
     //    -  I just pass in the ERC721 interface with the name I want and the symbol for the token
     //       which is how it will appear publically on chain -- you can literally name it anything
-    constructor(uint256 _totalSupply) ERC721("Ticketmaster", "TM") {
+    constructor(uint256 _totalSupply, string memory _ticketURI)
+        ERC721("Ticketmaster", "TM")
+    {
         for (uint256 i; i < _totalSupply; i++) {
             _id.increment();
             uint256 _newTicketId = _id.current();
             _mint(msg.sender, _newTicketId);
+            _setTokenURI(_newTicketId, _ticketURI);
             emit TicketCreated(msg.sender, _newTicketId);
         }
 
@@ -39,6 +43,7 @@ contract TicketMaster is ERC721, ERC721URIStorage, Ownable {
     function _burn(uint256 tokenId)
         internal
         override(ERC721, ERC721URIStorage)
+        onlyOwner
     {
         super._burn(tokenId);
     }
@@ -50,10 +55,6 @@ contract TicketMaster is ERC721, ERC721URIStorage, Ownable {
         returns (string memory)
     {
         return super.tokenURI(tokenId);
-    }
-
-    function setTicketURI(uint256 _ticketId, string memory _ticketURI) public {
-        _setTokenURI(_ticketId, _ticketURI);
     }
 
     function createTicket(address _recipient, string memory _ticketURI)
@@ -73,5 +74,10 @@ contract TicketMaster is ERC721, ERC721URIStorage, Ownable {
     {
         booped[_ticketId] = true;
         _setTokenURI(_ticketId, _boopURI);
+        emit TicketBooped(_ticketId);
+    }
+
+    function unBoopTicket(uint256 _ticketId) public onlyOwner {
+        booped[_ticketId] = false;
     }
 }

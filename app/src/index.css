@@ -1,13 +1,42 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: black;
+  color: white;
+  background-image: url("./assets/TICKETMASTER.png");
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+a {
+  color: white;
+  font-size: 24px;
+}
+
+input {
+  background-color: black;
+  border: 2px solid white;
+  color: white;
+  padding: 10px;
+  font-size: 20px;
+  margin: 10px 0px;
+}
+
+input::placeholder {
+  color: #83e3ff;
+}
+
+.h1 {
+  font-size: 40px;
+}
+
+.h2 {
+  font-size: 28px;
 }

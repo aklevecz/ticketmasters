@@ -18,5 +18,7 @@
     "ethers": "^5.0.0",
     "hardhat": "^2.3.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "canvas": "^2.8.0"
+  }
 }

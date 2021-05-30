@@ -1,0 +1,12 @@
+.events__block {
+  border: 2px solid white;
+  padding: 20px;
+}
+
+.events__block__name {
+  font-size: 40px;
+}
+
+.events__block__date {
+  font-size: 30px;
+}

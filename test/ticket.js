@@ -11,7 +11,7 @@ let notowner;
 describe("Ticket shit", function () {
   beforeEach(async function () {
     Ticket = await ethers.getContractFactory("TicketMaster");
-    ticket = await Ticket.deploy();
+    ticket = await Ticket.deploy(100, testURI);
     [owner, notowner] = await ethers.getSigners();
 
     await ticket.deployed();
